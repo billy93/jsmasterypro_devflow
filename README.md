@@ -1,9 +1,5 @@
 <div align="center">
   <br />
-    <a href="https://www.jsmastery.pro/ultimate-next-course" target="_blank">
-      <img src="https://github.com/user-attachments/assets/769882e6-bae6-4932-a117-829cf34f809f" alt="Project Banner">
-    </a>
-  <br />
 
   <div>
     <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
