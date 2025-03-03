@@ -18,33 +18,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const validatedFields = SignInSchema.safeParse(credentials);
 
         if (validatedFields.success) {
-          const { email, password } = validatedFields.data;
+          const response = await fetch(`/api/auth/credentials`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(validatedFields.data),
+          });
 
-          const { data: existingAccount } = (await api.accounts.getByProvider(
-            email
-          )) as ActionResponse<IAccountDoc>;
+          if (!response.ok) return null;
 
-          if (!existingAccount) return null;
-
-          const { data: existingUser } = (await api.users.getById(
-            existingAccount.userId.toString()
-          )) as ActionResponse<IUserDoc>;
-
-          if (!existingUser) return null;
-
-          const isValidPassword = await bcrypt.compare(
-            password,
-            existingAccount.password!
-          );
-
-          if (isValidPassword) {
-            return {
-              id: existingUser.id,
-              name: existingUser.name,
-              email: existingUser.email,
-              image: existingUser.image,
-            };
-          }
+          const { user } = await response.json();
+          return user;
         }
         return null;
       },
